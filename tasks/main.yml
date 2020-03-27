@@ -1,2 +1,27 @@
 ---
 # tasks file for gitclient
+#- name: copy epel
+#  copy: src=epel-release-6-8.noarch.rpm dest=/usr/local/src/
+
+- name: install epel-release
+  yum:
+    name: epel-release
+    state: present
+  sudo: yes
+
+- name: convert https to http
+  command: sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+
+#- name: install ius-release
+#  command: rpm -ivh ius-release.rpm
+
+
+- name: copy ius-release
+  copy: src=ius-release.rpm dest=/usr/local/src/
+
+ 
+- name: install ius-release
+  command: rpm -ivh /usr/local/src/ius-release.rpm
+
+- name: install the latest version of git 
+  yum: name=git2u state=latest
